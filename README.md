@@ -11,13 +11,13 @@ class variables.
 It's pretty much pure javascript (ES6) with a bit of jQuery used for AJAX calls only.
 
 ## Main.js
-The first file to look at id Main.js. It contains the only global variable, SudokuWizard, 
+The first file to look at is Main.js. It contains the only global variable, SudokuWizard, 
 which is used to interact with the web page. All other variables are const or let.
 The Model contains mostly constants and storage for the web site.
 
 SudokuWizard.js contains the event handling code top layer. CreateNumberButtons.js and 
 CreateDisplay.js do what you might think, creating the display 
-table and number buutons. DataArrays works with a small set of fields from the Model for local
+table and number buttons. DataArrays works with a small set of fields from the Model for local
 storage of the state of the puzzle. CandidateBackground is used to put multiple colors 
 on a candidate in the display when needed.
 
@@ -40,7 +40,7 @@ placed, typically by mistake.
 
 ## CreateDisplay.js
 The display is a table with three rows and three columns for each 3x3 box. Writeboxes
-does the owrk. Each box is a 3x3 table for each cell, created with the WriteCells method.
+does the work. Each box is a 3x3 table for each cell, created with the WriteCells method.
 Each cell has another 3x3 table for the candidates, created with the WriteCandidates method.
 Each cell also has a <p> element to hold the final value. Only one of the candidates or final 
 value are visible at a time.
@@ -67,10 +67,10 @@ desired. The display is updated accordingly and the value stored in the Model fo
 Once the initial values are entered into the display, the next step is to display the 
 remaining possible values in all of the other cells. This is done by clicking on the Add
 Pencil Marks button. For each cell, if there has been no value clicked in, the candidates
-table is made visible and the final value element made invisible using and instance of the 
+table is made visible and the final value element made invisible using an instance of the 
 Display class.
 
-Next, an instance of DisplayData calss is used to propagate the values selected, turning off
+Next, an instance of DisplayData class is used to propagate the values selected, turning off
 candidates that are no longer possibilities for that cell.
 
 Finally, the control buttons are enabled or disabled as appropriate for the next possible actions.
@@ -97,8 +97,8 @@ This is where all the methods to update the display based on the results of the 
 action, and undoing them in preparation for the next solution from the server.
 
 ## Display,js
-Methods to show and hide candidates, the candidates taable and final element. Also methods
-to get the current state of the puzzle for sending to ther server and restoring the display.
+Methods to show and hide candidates, the candidates table and final element. Also methods
+to get the current state of the puzzle for sending to the server and restoring the display.
 
 ## ButtonStateControl.js
 Methods to enable and disable the various buttons.
@@ -108,19 +108,19 @@ Occasionally a candidate will need to have more than one color. AddCandidateBack
 does this by using color gradients. 
 
 ## Canvas.js
-Where lines and curves are drawn on th canvas. Straight lines are, well, straight. Curved
+Where lines and curves are drawn on the canvas. Straight lines are, well, straight. Curved
 lines use a quadratic curve (see line 63) with two control points. There is some interesting
 calculations done here.
 
 ## Constant.js
-This calss contains a number of helpful utility calculation methods used in many places.
+This class contains a number of helpful utility calculation methods used in many places.
 
 ## HandleFileSelect
 A user can select to load a local file with puzzle data in .sdk format and update the display with 
 initial vales and pencil marks.
 
 ## SdkFormat.js
-Frm the left menu, a user can load a puzzle that demonstrates a particular solving technique.
+From the left menu, a user can load a puzzle that demonstrates a particular solving technique.
 These files are stored on the server. This class contains the AJAX call to get a particular
 file. 
 
@@ -132,10 +132,8 @@ Some functions that are used to place the controls correctly based on the size o
 
 ## Solver.js
 A class to move from the strategy documentation back to the solver. It includes code to 
-restore the display to its previous stateand load a selected puzzle into the display.
+restore the display to its previous state and load a selected puzzle into the display.
 
 ## Strategy.js
 Loads the appropriate strategy document from the server.
-
-
-which then turns blue
+The selected strategy then turns blue.
