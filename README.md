@@ -33,7 +33,7 @@ javascript.
 ## SudokuWizard.js
 The methods here are called directly from the html onClick for each button on the page.
 
-## CreatNumberButtons.js
+## CreateNumberButtons.js
 Creates the number button pad for entering values into the puzzle. It is a rectangular
 grid, with an extra row for a single button to put a blank where a value was initially
 placed, typically by mistake.
@@ -109,7 +109,7 @@ does this by using color gradients.
 
 ## Canvas.js
 Where lines and curves are drawn on the canvas. Straight lines are, well, straight. Curved
-lines use a quadratic curve (see line 63) with two control points. There is some interesting
+lines use a quadratic curve (see line 63) with two control points. There are some interesting
 calculations done here.
 
 ## Constant.js
