@@ -48,10 +48,12 @@ class ButtonStateControl {
         };
         this.EnableStep = () => {
             $('#stepButton').prop('disabled', false);
+            $('#solveButton').prop('disabled', false);
             Model.stepEnabled = true;
         };
         this.DisableStep = () => {
             $('#stepButton').prop('disabled', true);
+            $('#solveButton').prop('disabled', true);
             Model.stepEnabled = false;
         };
     }

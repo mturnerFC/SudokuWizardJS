@@ -6,7 +6,7 @@
 /* global Display, DisplayData, model, Canvas, Constants */
 
 class Step {
-    Step(Model){
+    Step(Model, stepOrSolve){
         const buttonStateControl = new ButtonStateControl(Model);
         buttonStateControl.EnableReset();
         buttonStateControl.DisableStep();
@@ -27,7 +27,8 @@ class Step {
         const currentPencilMarks = display.CurrentPencilMarks();
 
         let command = "jsp/solver/Step.jsp";
-        command += "?puzzle=" + currentValues;
+        command += "?stepOrSolve=" + stepOrSolve;
+        command += "&puzzle=" + currentValues;
         command += "&pencilMarks=" + currentPencilMarks;
         command += "&rowsPerArea=" + Model.numberOfRowsPerArea;
 
@@ -41,13 +42,21 @@ class Step {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(htmlDoc, "application/xml");
 
-                const data = xmlDoc.getElementsByTagName("ALGORITHM_UPDATE_DISPLAY_ONLY");
-                Model.stepResultsUpdateDisplayOnly = [].slice.call(data);
+                if (stepOrSolve === "step") {
+                    const data = xmlDoc.getElementsByTagName("ALGORITHM_UPDATE_DISPLAY_ONLY");
+                    Model.stepResultsUpdateDisplayOnly = [].slice.call(data);
 
-                const displayData = new DisplayData(Model);
-                Model.stepResultsUpdateDisplayOnly0 = Model.stepResultsUpdateDisplayOnly.shift();
-                displayData.UpdateDisplayOnly(Model.stepResultsUpdateDisplayOnly0);
-
+                    const displayData = new DisplayData(Model);
+                    Model.stepResultsUpdateDisplayOnly0 = Model.stepResultsUpdateDisplayOnly.shift();
+                    displayData.UpdateDisplayOnly(Model.stepResultsUpdateDisplayOnly0);
+                } else {
+                    const data = xmlDoc.getElementsByTagName("ALGORITHM_MATRIX_AND_DISPLAY");
+                    Model.solve = [].slice.call(data);
+                    
+                    const displayData = new DisplayData(Model);
+                    Model.solve0 = Model.solve.shift();
+                    displayData.Solve(Model.solve0);
+                }
                 Model.clearDisplayData = Model.stepResultsUpdateDisplayOnly[0];
 
                 const data2 = xmlDoc.getElementsByTagName("ALGORITHM_MATRIX_AND_DISPLAY");

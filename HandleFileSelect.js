@@ -100,12 +100,12 @@ class HandleFileSelect {
                 }
             }
 
-            let numberOfCluesChanged = false;
+            numberOfCluesChanged = false;
             if (numberOfClues !== Model.numberOfClues) {
                 numberOfCluesChanged = true;
             }
 
-            let numberOfRowsPerAreaChanged = false;
+            numberOfRowsPerAreaChanged = false;
             if (numberOfRowsPerArea !== Model.numberOfRowsPerArea) {
                 numberOfRowsPerAreaChanged = true;
             }
@@ -304,7 +304,7 @@ class HandleFileSelect {
                         FileReadMessage(errorMessage);
                         return false;
                     } else {
-                        rowValues[rowValues.length] = value;
+                        rowValues.add(value);
                     }
                 }
             }
@@ -324,7 +324,7 @@ class HandleFileSelect {
                         FileReadMessage(errorMessage);
                         return false;
                     } else {
-                        columnValues[columnValues.length] = value;
+                        columnValues.add(value);
                     }
                 }
             }
@@ -346,7 +346,7 @@ class HandleFileSelect {
                         FileReadMessage(errorMessage);
                         return false;
                     } else {
-                        areaValues[areaValues.length] = value;
+                        areaValues.add(value);
                     }
                 }
             }
@@ -481,14 +481,15 @@ class HandleFileSelect {
             Model.numberOfClues = numberOfClues;
             Model.numberOfRowsPerArea = numberOfRowsPerArea;
             Model.numberOfColumnsPerArea = numberOfColumnsPerArea;
+            let val = "";
             if (numberOfClues === 9) {
-                const val = "9x9";
+                val = "9x9";
                 Model.symbols = Model.symbolarray[numberOfClues];
             } else if (numberOfClues === 12) {
-                const val = "12x12";
+                val = "12x12";
                 Model.symbols = Model.symbolarray[numberOfClues];
             } else if (numberOfClues === 16) {
-                const val = "16x16";
+                val = "16x16";
                 Model.symbols = Model.symbolarray[numberOfClues];
             } else { return;}
 

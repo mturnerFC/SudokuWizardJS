@@ -28,6 +28,11 @@ class DisplayData {
 
             HighlightCandidates();
         };
+        this.Solve = function(Displaydata){
+            displaydata = Displaydata;
+            TurnOnFinalValues();
+            UpdateDocs();
+        };
         this.ClearDisplay = function (Displaydata){
             displaydata = Displaydata;
             const canvas = new Canvas(Model);
