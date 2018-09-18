@@ -21,6 +21,9 @@ window.onload = function() {
     
     const candidateBackground = new CandidateBackground(Model);
     candidateBackground.CreateCandidateBackgroundColors();
+    
+    const display = new Display(Model);
+    display.ClearDocs();
 };
 
 

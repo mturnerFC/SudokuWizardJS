@@ -26,8 +26,10 @@ class model{
         this.clearDisplayData = null;
         this.stepResultsUpdateDisplayOnly = [];
         this.stepResultsUpdateMatrixAndDisplay = [];
+        this.solve = [];
 
         this.stepResultsUpdateDisplayOnly0 = "";
+        this.solve = "";
         this.currentDocs = "";
 
         this.numberButtonsEnabled = true;

@@ -39,9 +39,9 @@ class sudokuWizard {
             const readMe = new ReadMe();
             readMe.ReadMe();
         };
-        this.Step = () => {
+        this.Step = (stepOrSolve) => {
             const step = new Step();
-            step.Step(Model);
+            step.Step(Model, stepOrSolve);
         };
         this.Solver = (puzzleName) => {
             const solver = new Solver(Model);
