@@ -1,12 +1,6 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* global model */
 class CandidateBackground {
     constructor (Model) {
+	    const colors= new UIColors();
         this.CreateCandidateBackgroundColors = () => {
             for (let i = Model.candidateBackgroundColors.length; i >= 0; i-- ){
                 delete Model.candidateBackgroundColors[i];
@@ -14,7 +8,7 @@ class CandidateBackground {
             this.ResetCandidateBackgroundArrays();
         };
         this.ResetCandidateBackgroundArrays = () => {
-            const initColor = Model.initialColor;
+            const initColor = colors.CandidateBackgroundColor;
             const background = "linear-gradient(" + initColor + " 0%, " + initColor + " 100%)";
             const arraySize = Model.numberOfClues * Model.numberOfClues * Model.numberOfClues;
             Model.candidateBackgroundColors = new Array(arraySize);
@@ -33,7 +27,7 @@ class CandidateBackground {
 
             let newBackground = "linear-gradient(";
 
-            if (currentBackground.indexOf(Model.initialColor) === -1) {
+            if (currentBackground.indexOf(colors.CandidateBackgroundColor) === -1) {
                 const sectionsize = 100 / ((parts.length / 2) + 1);
                 let currentpointer = 0;
                 let nextpointer = sectionsize;
@@ -58,7 +52,7 @@ class CandidateBackground {
         };
         this.ResetCandidateBackgroundColor = (hash) => {
             let background  = "linear-gradient(";
-            const initColor = Model.initialColor;
+            const initColor = colors.CandidateBackgroundColor;
             background += initColor + " 0%, " + initColor + " 100%)";
             Model.candidateBackgroundColors[hash] = background;
             return background;
