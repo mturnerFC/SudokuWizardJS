@@ -134,6 +134,12 @@ Some functions that are used to place the controls correctly based on the size o
 A class to move from the strategy documentation back to the solver. It includes code to 
 restore the display to its previous state and load a selected puzzle into the display.
 
+## Spinner.js
+An activity indicator. Code from the internet. Added Jan 2021.
+
 ## Strategy.js
 Loads the appropriate strategy document from the server.
 The selected strategy then turns blue.
+
+## UIColors.js
+Gather all the colors used (excluding candidate background colors) in one spot for maintainability and consistency. Added Jan 2021.
