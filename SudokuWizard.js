@@ -1,10 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global SudokuWizard */
-
 class sudokuWizard {
     constructor(Model) {
         this.HandleFileSelectEvent = (handleFileSelectEvent) => {
@@ -39,15 +32,17 @@ class sudokuWizard {
             const readMe = new ReadMe();
             readMe.ReadMe();
         };
+        this.Save = () => {
+            const saveState = new DisplayState(Model);
+            saveState.DisplayState();
+        };
         this.Step = (stepOrSolve) => {
             const step = new Step();
             step.Step(Model, stepOrSolve);
         };
         this.Solver = (puzzleName) => {
             const solver = new Solver(Model);
-            solver.Solve().then(
-                solver.LoadPuzzle(puzzleName)
-            );
+            solver.Solve(puzzleName);
         };
         this.Strategy = (action) => {
             const strategy = new Strategy();
