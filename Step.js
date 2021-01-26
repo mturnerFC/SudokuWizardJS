@@ -1,20 +1,21 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global Display, DisplayData, model, Canvas, Constants */
-
 class Step {
     Step(Model, stepOrSolve){
         const buttonStateControl = new ButtonStateControl(Model);
-        buttonStateControl.EnableReset();
+        buttonStateControl.ShowReset();
         buttonStateControl.DisableStep();
+        buttonStateControl.DisableSolve();
+        buttonStateControl.DisableClear();
+        buttonStateControl.DisableReset();
+        buttonStateControl.EnableActivitySpinner();
 
         if (Model.stepResultsUpdateMatrixAndDisplay.length > 0) {
             const displayData = new DisplayData(Model);
             displayData.UpdateMatrixAndDisplay(Model.stepResultsUpdateMatrixAndDisplay.shift());
             buttonStateControl.EnableStep();
+            buttonStateControl.EnableSolve();
+            buttonStateControl.EnableClear();
+            buttonStateControl.EnableReset();
+            buttonStateControl.DisableActivitySpinner();
         }
         if (Model.stepResultsUpdateDisplayOnly.length > 0) {
             const displayData = new DisplayData(Model);
@@ -63,8 +64,9 @@ class Step {
                 Model.stepResultsUpdateMatrixAndDisplay = [].slice.call(data2);
 
                 Model.displayIsCleared = false;
-                const buttonStateControl = new ButtonStateControl(Model);
-                buttonStateControl.EnableStep();
+	            buttonStateControl.EnableClear();
+	            buttonStateControl.EnableReset();
+                buttonStateControl.DisableActivitySpinner();
             }
         });
     }
