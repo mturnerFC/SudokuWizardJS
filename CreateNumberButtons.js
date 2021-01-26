@@ -1,15 +1,13 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global model, Constants, Utilities */
 class CreateNumberButtons {
     constructor(Model) {
         this.CreateNumberButtons = () =>{
+	        const colors = new UIColors(); 
             let count = 0;
             const constants = new Constants(Model);
             const tableNode = $("#NumberButtonTable")[0];
+            const placeInitialCluesText = $("#placeInitialClues")[0];
+            placeInitialCluesText.style.backgroundColor = colors.PrimaryButtonBackgroundColor;
+            placeInitialCluesText.style.color = colors.PrimaryButtonTextColor;
             let tBodyNode = tableNode.tBodies[0];
             if (tBodyNode !== undefined) {
                 tBodyNode.parentNode.removeChild(tBodyNode);
@@ -50,6 +48,7 @@ class CreateNumberButtons {
             inputButton.style.width = width + "px";
             const blankNode = document.createElement("td");
             blankNode.id = "blankNodeTd";
+//            blankNode.style.backgroundColor = colors.UIBackgroundColor;
             blankNode.appendChild(inputButton);
 
             rowNode.appendChild(blankNode);
@@ -62,7 +61,8 @@ class CreateNumberButtons {
         const GetStyleSheetPropertyValue = (selectorText, propertyName) => {
         // search backwards because the last match is more likely the right one
             for (let s= document.styleSheets.length - 1; s >= 0; s--) {
-                const cssRules = document.styleSheets[s].cssRules ||
+//                const cssRules = document.styleSheets[s].cssRules ||
+                let cssRules = document.styleSheets[s].cssRules ||
                         document.styleSheets[s].rules || []; // IE support
                 for (let c=0; c < cssRules.length; c++) {
                     if (cssRules[c].selectorText === selectorText) 
@@ -73,5 +73,3 @@ class CreateNumberButtons {
         };
     }
 }
-
-
