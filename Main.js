@@ -1,8 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 var SudokuWizard;
 window.onload = function() {
     const Model = new model();
@@ -24,6 +19,8 @@ window.onload = function() {
     
     const display = new Display(Model);
     display.ClearDocs();
+  
+    const bsc = new ButtonStateControl(Model);
+    bsc.Initialize(Model);
 };
-
 
