@@ -1,15 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global model, Canvas, Display, Constants */
-
-// DisplayData methods
 class DisplayData {
     constructor (Model){
         let displaydata;
         const constants = new Constants(Model);
+        const colors= new UIColors();
         this.UpdateMatrixAndDisplay = function (Displaydata){
             displaydata = Displaydata;
             this.ClearDisplay(displaydata);
@@ -101,11 +94,11 @@ class DisplayData {
             for (let i = 0; i < nodePairs.length; i++) {
                 const nodePair = nodePairs[i];
                 const nodes = nodePair.getElementsByTagName("Node");
-                const color = Model.interchainColor;
+                const color = colors.InterchainColor;
                 HighlightCandidateBorders(nodes,color);
 
                 const canvas = new Canvas(Model);
-                canvas.CreateInterchainSegments(nodes, Model.interchainColor);
+                canvas.CreateInterchainSegments(nodes, colors.InterchainColor);
             }
         };
         const UnhighlightRCCs = () => {
@@ -114,7 +107,7 @@ class DisplayData {
             const nodePairs = nodesToColor[0].getElementsByTagName("NodePair");
             for (let i = 0; i < nodePairs.length; i++) {
                 const nodes = nodesToColor[0].getElementsByTagName("Node");
-                const color = Model.initialColor;
+                const color = colors.CandidateBorderColor;
                 HighlightCandidateBorders(nodes,color);
             }
         };
@@ -160,11 +153,11 @@ class DisplayData {
             for (let i = 0; i < nodePairs.length; i++) {
                 const nodePair = nodePairs[i];
                 const nodes = nodePair.getElementsByTagName("Node");
-                const color = Model.interchainColor;
+                const color = colors.InterchainColor;
                 HighlightCandidateBorders(nodes,color);
 
                 const canvas = new Canvas(Model);
-                canvas.CreateInterchainSegments(nodes, Model.interchainColor);
+                canvas.CreateInterchainSegments(nodes, colors.InterchainColor);
             }
         };
         const UnhighlightChainInteractionNodes = () => {
@@ -173,7 +166,7 @@ class DisplayData {
             const nodePairs = nodesToColor[0].getElementsByTagName("NodePair");
             for (let i = 0; i < nodePairs.length; i++) {
                 const nodes = nodesToColor[0].getElementsByTagName("Node");
-                const color = Model.initialColor;
+                const color =colors.CandidateBorderColor;
                 HighlightCandidateBorders(nodes,color);
             }
         };
@@ -257,6 +250,7 @@ class DisplayData {
                 const value = constants.ValueFromHash(hash);
 
                 const symbol = constants.SymbolAtPosition(value);
+symbol.fontsize(2);
                 const newPencilMark = display.RemovePencilMarkString(row, column, symbol);
                 Model.currentPencilMarks[row][column] = newPencilMark;
 
@@ -267,7 +261,7 @@ class DisplayData {
                 const finalValueID = "#finalValuerow" + row + "column" + column;
                 const finalValue = $(finalValueID)[0];
                 finalValue.innerHTML = symbol;
-                finalValue.style.color = Model.subsequentValueColor;
+                finalValue.style.color = colors.CellSubsequentTextColor;
                 this.PropagateFinalValue(row, column, false);
             }
         };
@@ -293,9 +287,13 @@ class DisplayData {
             const isPuzzleDone = displaydata.getElementsByTagName("IsPuzzleDone");
             if (isPuzzleDone.length === 0) {return;}
             const boolIsPuzzleDone = isPuzzleDone[0].childNodes[0].nodeValue;
+            const buttonStateControl = new ButtonStateControl(Model);
             if (boolIsPuzzleDone === "true") {
-                const buttonStateControl = new ButtonStateControl(Model);
                 buttonStateControl.DisableStep();
+                buttonStateControl.DisableSolve();
+            } else {
+	            buttonStateControl.EnableStep();
+	            buttonStateControl.EnableSolve();
             }
         };
         const HighlightCandidateBorders = function(nodes, color) {
