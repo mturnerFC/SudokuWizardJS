@@ -1,10 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global model, Display, Constants, Initialize, Utilities, SudokuWizard */
-
 class HandleFileSelect {
     constructor(Model) {
         let numberOfRowsPerAreaChanged;
@@ -22,6 +15,7 @@ class HandleFileSelect {
         let badPencilMarkData;
         
         const constants = new Constants(Model);
+        const colors = new UIColors();
         
         this.LoadFile = (selectedFile) =>{
             const reader = new FileReader();
@@ -124,6 +118,12 @@ class HandleFileSelect {
             initialValues = new Array(numberOfClues);
             for (let row = 0; row < numberOfClues; row++) {
                 lineCounter++;
+                if (lineCounter === lines.length) {
+	                const message = "Insufficient number of puzzle rows.";
+                    FileReadMessage(message);
+                    badPuzzleData = true;
+                    return;
+                }
                 const line = lines[lineCounter].trim();
                 if (!ValidPuzzleLine(line, numberOfClues, row)) {
                     badPuzzleData = true;
@@ -139,6 +139,17 @@ class HandleFileSelect {
                     initialValueRow[column] = value;
                 }
                 initialValues[row] = initialValueRow;
+            }
+
+            if (lineCounter + 1 < lines.Length)
+            {
+                const line = lines[lineCounter + 1].Trim();
+                if (!line.startsWith("[") && !line.startsWith("#")) {
+                    const message = "Too many puzzle rows.";
+                    FileReadMessage(message);
+                    badPuzzleData = true;
+                    return;
+                }
             }
         };
         const ValidPuzzle = () => {
@@ -160,6 +171,13 @@ class HandleFileSelect {
             initialPencilMarks = new Array(numberOfClues);
             for (let row = 0; row < numberOfClues; row++) {
                 lineCounter++;
+                if (lineCounter === lines.length)
+                {
+                    const message = "Insufficient number of pencil mark rows.";
+                    badPencilMarkData = true;
+                    FileReadMessage(message);
+                    return;
+                }
                 const line = lines[lineCounter].trim();
                 const rowValues = line.split(',');
                 if (!ValidPencilMarksLine(line, rowValues, row)) {
@@ -177,11 +195,20 @@ class HandleFileSelect {
                 }
                 initialPencilMarks[row] = initialPencilMarksRow;
             }
+            if (lineCounter + 1 < lines.size)
+            {
+                const line = lines[lineCounter + 1].Trim();
+                if (!line.StartsWith("[") && !line.StartsWith("#"))
+                {
+                    const message = "Too many pencil mark rows.";
+                    FileReadMessage(message);
+                    badPuzzleData = true;
+                    return;
+                }
+            }
         };    
         const ValidPencilMarks = () => {
-            let results;
-            if (initialPencilMarks.length === 0) {return true;}
-            results = ValidPencilMarkRows();
+            let results = ValidPencilMarkRows();
             if (!results) { return results;}
 
             results = ValidPencilMarkColumns();
@@ -217,10 +244,16 @@ class HandleFileSelect {
             display.ClearDocs();
             const buttonStateControl = new ButtonStateControl(Model);
             buttonStateControl.DisableKeyPad();
-            buttonStateControl.DisableAddPencilMarks();
+            buttonStateControl.HideAddPencilMarks();
+//            buttonStateControl.EnableStep();
+            buttonStateControl.ShowStep();
             buttonStateControl.EnableStep();
-            buttonStateControl.EnableClear();
-            buttonStateControl.DisableReset();
+            buttonStateControl.ShowSolve();
+            buttonStateControl.EnableSolve();
+
+            buttonStateControl.ShowClear();
+            buttonStateControl.HideReset();
+            buttonStateControl.ShowSaveState();
             Model.displayIsCleared = false;
 
             UpdateModelAndDisplay();
@@ -237,6 +270,21 @@ class HandleFileSelect {
             const docElement = $("#docs")[0];
             docElement.value = message;
             Model.currentDocs = docElement.value;
+            if (message !== "File read successfully.") {
+                UpdateButtonsWhenInvalidFile();
+			}
+        };
+        const UpdateButtonsWhenInvalidFile = () => {
+	        const buttonStateControl = new ButtonStateControl(Model);
+            buttonStateControl.HideAddPencilMarks();
+            buttonStateControl.EnableKeyPad();
+            buttonStateControl.HideStep();
+//            buttonStateControl.DisableStep();
+            buttonStateControl.HideSolve();
+//            buttonStateControl.DisableSolve();
+            buttonStateControl.HideClear();
+            buttonStateControl.HideReset();
+            buttonStateControl.HideSaveState();
         };
         const  ValidNumberOfClues = () => {
             if ((isNaN(numberOfClues)) || 
@@ -358,20 +406,20 @@ class HandleFileSelect {
                 (line.charAt(0) === "#")) {
                 const message = "Insufficient number of rows of pencil marks";
                 FileReadMessage(message);
-                return;
+                return false;
             }
 
             if (rowValues.length < numberOfClues) {
                 const rowValue = parseInt(row) + 1;
-                message = "Insufficient number of pencil marks in row " + rowValue;
+                const message = "Insufficient number of pencil marks in row " + rowValue;
                 FileReadMessage(message);
-                return;
+                return false;
             }
             if (rowValues.length > numberOfClues) {
-                rowValue = parseInt(row) + 1;
-                message = "Too many pencil marks in row " + rowValue;
+                const rowValue = parseInt(row) + 1;
+                const message = "Too many pencil marks in row " + rowValue;
                 FileReadMessage(message);
-                return;
+                return false;
             }
             return true;
         };
@@ -433,7 +481,7 @@ class HandleFileSelect {
                         rowWithMarksCount++;
                         for (let index = 0; index < pencilMark.length; index++) {
                             const mark = pencilMark.substring(index, index + 1);
-                            if (!pencilMarkValues.hasOwnProperty(mark)) {
+                            if (!pencilMarkValues.has(mark)) {
                                 pencilMarkValues.add(mark);
                             }
                         }
@@ -504,7 +552,8 @@ class HandleFileSelect {
                     const finalValue = $(finalValueID)[0];
                     if (value !== ".") {
                         finalValue.innerHTML = value;
-                        finalValue.style.color = Model.initialValueColor;
+                      //  finalValue.style.color = Model.initialValueColor;
+                        finalValue.style.color = colors.CellInitialTextColor;
                         Model.initialValues[row][column] = value;
                         Model.currentValues[row][column] = value;
                         display.TurnOffCandidateTable(row, column);
