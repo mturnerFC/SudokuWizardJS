@@ -1,12 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global model, Display, SudokuWizard */
-
-//import {Display} from "./Display.js";
-//import {model} from "./Main.js";
 class ClearReset {
     constructor (Model) {
         this.Reset = () => {
@@ -15,8 +6,9 @@ class ClearReset {
                 displayData.ClearDisplay(Model.stepResultsUpdateMatrixAndDisplay.shift());
             }
             const buttonStateControl = new ButtonStateControl(Model);
-            buttonStateControl.DisableReset();
-            buttonStateControl.EnableStep();
+            buttonStateControl.HideReset();
+            buttonStateControl.ShowStep();
+            buttonStateControl.EnableSolve();
 
             const display = new Display(Model);
             display.ClearDocs();
@@ -38,7 +30,16 @@ class ClearReset {
                     }
                 }
             }
+            buttonStateControl.EnableStep();
+            buttonStateControl.EnableSolve();
             SudokuWizard.AddPencilMarks(Model);
+
+            Model.stepResultsUpdateDisplayOnly = [];
+            Model.stepResultsUpdateMatrixAndDisplay = [];
+
+            Model.stepResultsUpdateDisplayOnly0 =  "";
+            Model.currentDocs =  "";
+            Model.numberOfNonZeroCells = 0;
         };
         this.Clear = () => {
             if (Model.stepResultsUpdateMatrixAndDisplay.length > 0) {
@@ -71,20 +72,23 @@ class ClearReset {
             candidateBackground.ResetCandidateBackgroundArrays();
 
             const buttonStateControl = new ButtonStateControl(Model);
-            buttonStateControl.EnableStep();
+            buttonStateControl.HideClear();
+            buttonStateControl.HideReset();
+            buttonStateControl.HideStep();
+            buttonStateControl.HideSolve();
+            buttonStateControl.HideAddPencilMarks();
+            buttonStateControl.HideSaveState();
+            buttonStateControl.HideStep();
+            buttonStateControl.HideSolve();
+
             buttonStateControl.EnableKeyPad();
-            buttonStateControl.DisableAddPencilMarks();
-            buttonStateControl.DisableStep();
-            buttonStateControl.DisableClear();
-            buttonStateControl.DisableReset();
 
             Model.stepResultsUpdateDisplayOnly = [];
             Model.stepResultsUpdateMatrixAndDisplay = [];
 
             Model.stepResultsUpdateDisplayOnly0 =  "";
             Model.currentDocs =  "";
+            Model.numberOfNonZeroCells = 0;
         };
     }
 }
-
-
