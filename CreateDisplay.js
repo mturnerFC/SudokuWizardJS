@@ -1,9 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global model, Constants, Utilities, SudokuWizard */
 class CreateDisplay {
     constructor(Model) {
         const constants = new Constants(Model);
@@ -35,10 +29,11 @@ class CreateDisplay {
             dataArrays.CreateDataArrays();
 
             const buttonStateControl = new ButtonStateControl(Model);
-            buttonStateControl.DisableStep();
-            buttonStateControl.DisableAddPencilMarks();
-            buttonStateControl.DisableClear();
-            buttonStateControl.DisableReset();
+            buttonStateControl.HideStep();
+            buttonStateControl.HideAddPencilMarks();
+            buttonStateControl.HideClear();
+            buttonStateControl.HideReset();
+            buttonStateControl.HideSaveState();
         };
         this.CreateDisplay = () => {
             const tableNode = $("#display")[0];
