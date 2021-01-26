@@ -1,15 +1,6 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/* global model, Constants, Utilities */
-//import {Constants} from "./Constants.js";
-//import {model} from "./Main.js";
-//import {Utilities} from "./Utilities.js";
-// Basic display manipulation functions
 class Display {
     constructor (Model) {
+	    const colors = new UIColors(); 
         this.HideCandidate = (hash) => {
             const candidateID = "#candidate" + hash;
             const candidate = $(candidateID)[0];
@@ -28,6 +19,8 @@ class Display {
         this.TurnOnFinalValue = (row, column) => {
             const finalValueID = "#finalValuerow" + row + "column" + column;
             const finalValue = $(finalValueID)[0];
+            //const colors = new UIColors(); 
+            //finalValue.style.color = colors.CellInitialTextColor();
             finalValue.style.visibility = "visible";
         };
         this.TurnOnCandidateTable = (row, column) => {
@@ -100,6 +93,7 @@ class Display {
             docElement.value = "";
         };
         this.RestoreCurrentValues = () => {
+	        
             for (let row = 0; row < Model.numberOfClues; row++) {
                 for (let column = 0; column < Model.numberOfClues; column++) {
 
@@ -115,9 +109,11 @@ class Display {
                     this.TurnOnFinalValue(row, column);
 
                     if (Model.initialValues[row][column] === value) {
-                        finalValue.style.color = Model.initialValueColor;
+                        //finalValue.style.color = Model.initialValueColor;
+                        finalValue.style.color = colors.CellInitialTextColor;
                     } else {
-                        finalValue.style.color = Model.subsequentValueColor;
+                        //finalValue.style.color = Model.subsequentValueColor;
+                        finalValue.style.color = colors.CellSubsequentTextColor;
                     }
                 }
             }
@@ -150,6 +146,3 @@ class Display {
         };
     }
 }
-
-
-
