@@ -1,23 +1,15 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 class model{
     constructor () {
+	    
         this.symbols = "123456789";
         this.symbolarray =  [];
-        this.blank = "";
+        this.blank = "(Blank)";
         this.numberOfClues = 9;
         this.numberOfRowsPerArea = 3;
         this.numberOfColumnsPerArea = 3;
-        this.initialColor = "white";
-        this.interchainColor = "black";
-        this.initialValueColor = "red";
-        this.subsequentValueColor = "blue";
         this.prevKeypadId = "";
         this.selectedValue = "";
+        this.numberOfNonZeroCells = 0;
         this.initialValues = [];
         this.currentValues = [];
         this.initialPencilMarks = [];
@@ -38,6 +30,7 @@ class model{
         this.resetEnabled = false;
         this.stepEnabled = false;
         this.displayIsCleared = true;
+        this.saveCurrentState = false;
 
         this.candidateBackgroundColors = [];
     }
